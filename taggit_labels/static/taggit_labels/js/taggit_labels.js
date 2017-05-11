@@ -8,7 +8,6 @@
         $(".taggit-labels").closest("div").each(function(i) {
             var inputs = $(this).find(".taggit-labels + input")[0];
             var tagItems = $(this).find(".taggit-list .taggit-tag");
-            var tagList = inputs.value.split(", ");
             tagItems.click(function() {
                 var tagList = inputs.value.split(", ");
                 var tagName = $(this).attr("data-tag-name");
@@ -21,16 +20,20 @@
                 var index = $.inArray(tagName, tagList);
                 // Add the selected tag to the list of tags if it wasn't there previously
                 // and remove it if it was present.
-                if(index == -1) {
+                if(index === -1) {
                     $(this).toggleClass("selected");
                     tagList.push(tagName);
                 } else {
-                     $(this).toggleClass("selected");
-                     tagList.splice(index, 1);
+                    $(this).toggleClass("selected");
+                    tagList.splice(index, 1);
                 }
 
+                // Remove blanks from the list
+                tagList = tagList.filter(function(v){return v!==''});
+
                 // Refresh the tag list
-                $(inputs).attr("value", tagList.join(", "));
+                var newValue = tagList.join(", ");
+                $(inputs).val(newValue);
             });
         });
     });
