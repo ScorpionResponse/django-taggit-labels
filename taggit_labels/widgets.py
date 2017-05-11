@@ -38,7 +38,7 @@ class LabelWidget(forms.TextInput):
         with tag lists built from forms not fully submitted.
         """
         return [(tag.name, 'selected taggit-tag' if tag.name in tags else 'taggit-tag')
-                for tag in self.model.objects.all()]
+                for tag in self.model.objects.all().order_by('name')]
 
     def format_value(self, value):
         if value is not None and not isinstance(value, six.string_types):
